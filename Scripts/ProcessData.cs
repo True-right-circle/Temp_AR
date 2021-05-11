@@ -8,13 +8,19 @@ namespace ProcessData
     /********************************************************************/
     public class DCST
     {
-        [SerializeField] public string What;
-        [SerializeField] public string How;
-        [SerializeField] public string Time;
-        [SerializeField] public string Status;
+        [SerializeField] public List<Food> food;
+        [SerializeField] public List<string> Commnet;
     }
+
     /********************************************************************/
 
+    //Action
+    /********************************************************************/
+    public class CAtion
+    {
+        [SerializeField] public string _action;
+    }
+    /********************************************************************/
 
     //Tools
     /********************************************************************/
@@ -36,10 +42,10 @@ namespace ProcessData
     /********************************************************************/
     public class MyBusket
     {
-        [SerializeField] public List<mObject> Whats;
+        [SerializeField] public List<FoodInfo> Whats;
     }
 
-    public class mObject
+    public class FoodInfo
     {
         [SerializeField] public int Count;
         [SerializeField] public int Amount;
@@ -47,5 +53,19 @@ namespace ProcessData
         [SerializeField] public string BuyingDate;
         [SerializeField] public string ExpireDate;
     }
+
+
+    public class Food
+    {
+        [SerializeField] public string name;
+        [SerializeField] public string category;
+        [SerializeField] public string Status;
+        [SerializeField] public string Shape;
+        [SerializeField] public string Size;
+        [SerializeField] public int count; //amount
+        [SerializeField] public List<string> How;
+        [SerializeField] public string Time;
+    }
+
     /********************************************************************/
 }
