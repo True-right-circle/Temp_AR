@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Roundary : MonoBehaviour
 {
+    private float pivotSize = 3.305785f;
+
     // Start is called before the first frame update
     void Start()
     {
