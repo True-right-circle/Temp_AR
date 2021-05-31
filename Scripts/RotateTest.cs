@@ -9,7 +9,7 @@ public class RotateTest : MonoBehaviour
     Quaternion Top = new Quaternion();
     Quaternion Front = new Quaternion();
     Coroutine RotateCor = null;
-    float spinSpeed = 50.5f;
+    float spinSpeed = 250f;
     private void Awake()
     {
         Top = Quaternion.Euler(-90,0,0);
@@ -33,24 +33,24 @@ public class RotateTest : MonoBehaviour
         if (isTop)
         {
             float angle = Quaternion.Angle(mPlane.transform.localRotation, Front);
-            while (angle >= 0)
+            while (angle > 0)
             {
                 mPlane.transform.localRotation = Quaternion.RotateTowards(mPlane.transform.localRotation, Front, Time.deltaTime * spinSpeed);
+                angle = Quaternion.Angle(mPlane.transform.localRotation, Front);
                 yield return null;
             }
-            UnityEngine.Debug.Log(angle + isTop.ToString());
+
             isTop = false;
         }
         else
         {
             float angle = Quaternion.Angle(mPlane.transform.localRotation, Top);
-            while (angle >= 0)
+            while (angle > 0)
             {
                 mPlane.transform.localRotation = Quaternion.RotateTowards(mPlane.transform.localRotation, Top, Time.deltaTime * spinSpeed);
+                angle = Quaternion.Angle(mPlane.transform.localRotation, Top);
                 yield return null;
-                UnityEngine.Debug.Log(angle);
             }
-            UnityEngine.Debug.Log(angle + isTop.ToString());
             isTop = true;
         }
     }
