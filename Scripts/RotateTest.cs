@@ -18,8 +18,12 @@ public class RotateTest : MonoBehaviour
 
     Quaternion Top = new Quaternion();
     Quaternion Front = new Quaternion();
+
     Vector3 CamFront = new Vector3();
     Vector3 CamTop = new Vector3();
+
+    Vector3 PlaneFront = new Vector3();
+    Vector3 PlaneTop = new Vector3();
 
     Coroutine CamRotateCor = null;
     Coroutine RotateCor = null;
@@ -35,8 +39,11 @@ public class RotateTest : MonoBehaviour
         Top = Quaternion.Euler(0, 0, 0);
         Front = Quaternion.Euler(90, 45, 0);
 
-        CamFront = new Vector3(0, 3.5f, -10);
-        CamTop = new Vector3(0, 0, -10);
+        //CamFront = new Vector3(0, 3.5f, -10);
+        //CamTop = new Vector3(0, 0, -10);
+
+        PlaneFront = new Vector3(0, -3.5f, 10);
+        PlaneTop = new Vector3(0, 0, 10);
 
         float angle = Quaternion.Angle(mPlane.transform.localRotation, mCam.transform.localRotation);
         UnityEngine.Debug.Log("cam r " + angle);
@@ -144,9 +151,9 @@ public class RotateTest : MonoBehaviour
                 angle = Quaternion.Angle(mPlane.transform.localRotation, Front);
                 yield return null;
             }
-            while (!(mCam.transform.localPosition == CamFront))
+            while (!(mPlane.transform.localPosition == PlaneFront))
             {
-                mCam.transform.localPosition = Vector3.Lerp(mCam.transform.localPosition, CamFront, Time.deltaTime * 15);
+                mPlane.transform.localPosition = Vector3.Lerp(mPlane.transform.localPosition, PlaneFront, Time.deltaTime * 15);
                 yield return null;
             }
             isTop = false;
@@ -161,9 +168,9 @@ public class RotateTest : MonoBehaviour
                 angle = Quaternion.Angle(mPlane.transform.localRotation, Top);
                 yield return null;
             }
-            while(!(mCam.transform.localPosition== CamTop))
+            while(!(mPlane.transform.localPosition== PlaneTop))
             {
-                mCam.transform.localPosition = Vector3.Lerp(mCam.transform.localPosition, CamTop, Time.deltaTime * 15);
+                mPlane.transform.localPosition = Vector3.Lerp(mPlane.transform.localPosition, PlaneTop, Time.deltaTime * 15);
                 yield return null;
             }
             isTop = true;
