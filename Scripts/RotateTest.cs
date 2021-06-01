@@ -27,8 +27,13 @@ public class RotateTest : MonoBehaviour
     private void Awake()
     {
         _state = ViewState.Front;
-        Top = Quaternion.Euler(-90,0,0);
-        Front = Quaternion.Euler(0,45,0);
+        //Plane
+        //Top = Quaternion.Euler(-90,0,0);
+        //Front = Quaternion.Euler(0,45,0);
+
+        //Canvas
+        Top = Quaternion.Euler(0, 0, 0);
+        Front = Quaternion.Euler(90, 45, 0);
 
         CamFront = new Vector3(0, 3.5f, -10);
         CamTop = new Vector3(0, 0, -10);
