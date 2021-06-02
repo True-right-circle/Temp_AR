@@ -4,15 +4,29 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class MousePositionDebug : MonoBehaviour, IPointerClickHandler
+public class MousePositionDebug : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public Canvas canvas;
     public RectTransform rectTransform;
+    public GameObject Dummy_Cube;
+    Vector2 startpos = new Vector2();
+    Vector2 endpos = new Vector2();
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
-        Vector2 viewportPoint = ScreenToRectPos(Input.mousePosition);
-        UnityEngine.Debug.Log(viewportPoint);
+        Dummy_Cube.SetActive(false);
+        startpos = ScreenToRectPos(Input.mousePosition);
+        Dummy_Cube.transform.localPosition = startpos;
+        UnityEngine.Debug.Log(startpos);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        endpos = ScreenToRectPos(Input.mousePosition);
+
+        Dummy_Cube.transform.localScale = new Vector3(endpos.x - startpos.x, Dummy_Cube.transform.localScale.y, Dummy_Cube.transform.localScale.z);
+        Dummy_Cube.SetActive(true);
+        UnityEngine.Debug.Log(startpos+"\n"+endpos+"\n"+ (endpos.x - startpos.x));
     }
 
 
