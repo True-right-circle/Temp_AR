@@ -14,10 +14,12 @@ public class MousePositionDebug : MonoBehaviour, IPointerDownHandler, IPointerUp
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Dummy_Cube.transform.localScale = new Vector3(0.1f, 1, 1);
         //Dummy_Cube.SetActive(false);
         Dummy_Cube.SetActive(true);
         startpos = ScreenToRectPos(Input.mousePosition);
-        Dummy_Cube.transform.localPosition = new Vector3(startpos.x,startpos.y, -0.15f);
+
+        Dummy_Cube.transform.localPosition = new Vector3(startpos.x,startpos.y, -0.51f);
     }
 
 
@@ -28,12 +30,14 @@ public class MousePositionDebug : MonoBehaviour, IPointerDownHandler, IPointerUp
         if (endpos.x > startpos.x)
         {
             Dummy_Cube.transform.localScale = new Vector3(distance, Dummy_Cube.transform.localScale.y, Dummy_Cube.transform.localScale.z);
-            Dummy_Cube.transform.localRotation = Quaternion.Euler(Dummy_Cube.transform.localRotation.x, Dummy_Cube.transform.localRotation.y, CalculateAngle(startpos, endpos));
+            Dummy_Cube.transform.localRotation = Quaternion.Euler(Dummy_Cube.transform.localRotation.x, Dummy_Cube.transform.localRotation.y, interpolateAngle(CalculateAngle(startpos, endpos)));
+            UnityEngine.Debug.Log("z == \n" + interpolateAngle(CalculateAngle(startpos, endpos)));
         }
         else
         {
             Dummy_Cube.transform.localScale = new Vector3(-distance, Dummy_Cube.transform.localScale.y, Dummy_Cube.transform.localScale.z);
-            Dummy_Cube.transform.localRotation = Quaternion.Euler(Dummy_Cube.transform.localRotation.x, Dummy_Cube.transform.localRotation.y, CalculateBAngle(startpos, endpos));
+            Dummy_Cube.transform.localRotation = Quaternion.Euler(Dummy_Cube.transform.localRotation.x, Dummy_Cube.transform.localRotation.y, interpolateAngle(CalculateBAngle(startpos, endpos)));
+            UnityEngine.Debug.Log("z == \n" + interpolateAngle(CalculateAngle(startpos, endpos)));
         }
     }
 
@@ -93,4 +97,14 @@ public class MousePositionDebug : MonoBehaviour, IPointerDownHandler, IPointerUp
     {
         return Quaternion.FromToRotation(Vector3.left, to - from).eulerAngles.z;
     }
+
+
+    //To do : interpolate Input Angle each range
+    public static float interpolateAngle(float angle)
+    {
+        // Ceil -??
+        return Mathf.Ceil(angle);
+    }
+
+
 }
