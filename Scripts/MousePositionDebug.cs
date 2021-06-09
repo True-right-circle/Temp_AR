@@ -31,14 +31,12 @@ public class MousePositionDebug : MonoBehaviour, IPointerDownHandler, IPointerUp
         {
             Dummy_Cube.transform.localScale = new Vector3(distance, Dummy_Cube.transform.localScale.y, Dummy_Cube.transform.localScale.z);
             Dummy_Cube.transform.localRotation = Quaternion.Euler(Dummy_Cube.transform.localRotation.x, Dummy_Cube.transform.localRotation.y, interpolateAngle(CalculateAngle(startpos, endpos)));
-            UnityEngine.Debug.Log("z == \n" + interpolateAngle(CalculateAngle(startpos, endpos)));
         }
         else
         {
             Dummy_Cube.transform.localScale = new Vector3(-distance, Dummy_Cube.transform.localScale.y, Dummy_Cube.transform.localScale.z);
             Dummy_Cube.transform.localRotation = Quaternion.Euler(Dummy_Cube.transform.localRotation.x, Dummy_Cube.transform.localRotation.y, interpolateAngle(CalculateBAngle(startpos, endpos)));
-            UnityEngine.Debug.Log("z == \n" + interpolateAngle(CalculateAngle(startpos, endpos)));
-        }
+         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -103,7 +101,11 @@ public class MousePositionDebug : MonoBehaviour, IPointerDownHandler, IPointerUp
     public static float interpolateAngle(float angle)
     {
         // Ceil -??
-        return Mathf.Ceil(angle);
+        float dummy = Mathf.Ceil(angle)%100;
+        UnityEngine.Debug.Log("dummy =  " + dummy);
+        //100 단위로 각도 변경?
+        return Mathf.Ceil(angle) - dummy; 
+
     }
 
 
