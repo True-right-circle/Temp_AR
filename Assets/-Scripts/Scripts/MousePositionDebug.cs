@@ -4,16 +4,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class MousePositionDebug : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class MousePositionDebug : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerExitHandler,IPointerEnterHandler
 {
     public Canvas canvas;
     public RectTransform rectTransform;
     public GameObject Dummy_Cube;
     Vector2 startpos = new Vector2();
     Vector2 endpos = new Vector2();
-
+    private bool isOnPlane = false;
     public void OnPointerDown(PointerEventData eventData)
     {
+        isOnPlane = true;
         Dummy_Cube.transform.localScale = new Vector3(0.1f, 1, 1);
         //Dummy_Cube.SetActive(false);
         Dummy_Cube.SetActive(true);
@@ -22,25 +23,36 @@ public class MousePositionDebug : MonoBehaviour, IPointerDownHandler, IPointerUp
         Dummy_Cube.transform.localPosition = new Vector3(startpos.x,startpos.y, -0.51f);
     }
 
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        isOnPlane = false;
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
-        endpos = ScreenToRectPos(Input.mousePosition);
-        float distance = GetDistance(endpos, startpos);
-        if (endpos.x > startpos.x)
+        if (isOnPlane)
         {
-            Dummy_Cube.transform.localScale = new Vector3(distance, Dummy_Cube.transform.localScale.y, Dummy_Cube.transform.localScale.z);
-            Dummy_Cube.transform.localRotation = Quaternion.Euler(Dummy_Cube.transform.localRotation.x, Dummy_Cube.transform.localRotation.y, CalculateAngle(startpos, endpos));
-        }
-        else
-        {
-            Dummy_Cube.transform.localScale = new Vector3(-distance, Dummy_Cube.transform.localScale.y, Dummy_Cube.transform.localScale.z);
-            Dummy_Cube.transform.localRotation = Quaternion.Euler(Dummy_Cube.transform.localRotation.x, Dummy_Cube.transform.localRotation.y, CalculateBAngle(startpos, endpos));
+            endpos = ScreenToRectPos(Input.mousePosition);
+            float distance = GetDistance(endpos, startpos);
+            if (endpos.x > startpos.x)
+            {
+                Dummy_Cube.transform.localScale = new Vector3(distance, Dummy_Cube.transform.localScale.y, Dummy_Cube.transform.localScale.z);
+                Dummy_Cube.transform.localRotation = Quaternion.Euler(Dummy_Cube.transform.localRotation.x, Dummy_Cube.transform.localRotation.y, interpolateAngle(CalculateAngle(startpos, endpos)));
+            }
+            else
+            {
+                Dummy_Cube.transform.localScale = new Vector3(-distance, Dummy_Cube.transform.localScale.y, Dummy_Cube.transform.localScale.z);
+                Dummy_Cube.transform.localRotation = Quaternion.Euler(Dummy_Cube.transform.localRotation.x, Dummy_Cube.transform.localRotation.y, interpolateAngle(CalculateBAngle(startpos, endpos)));
+            }
         }
     }
-
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isOnPlane = true;
+    }
     public void OnPointerUp(PointerEventData eventData)
     {
+        isOnPlane = false;
        // endpos = ScreenToRectPos(Input.mousePosition);
 
         //Dummy_Cube.transform.localScale = new Vector3(endpos.x - startpos.x, Dummy_Cube.transform.localScale.y, Dummy_Cube.transform.localScale.z);
@@ -95,4 +107,18 @@ public class MousePositionDebug : MonoBehaviour, IPointerDownHandler, IPointerUp
     {
         return Quaternion.FromToRotation(Vector3.left, to - from).eulerAngles.z;
     }
+
+
+    //To do : interpolate Input Angle each range
+    public static float interpolateAngle(float angle)
+    {
+        // Ceil -??
+        float dummy = Mathf.Ceil(angle)%100;
+        UnityEngine.Debug.Log("dummy =  " + dummy);
+        //100 단위로 각도 변경?
+        //return Mathf.Ceil(angle) - dummy;
+        return Mathf.Ceil(angle);
+    }
+
+
 }

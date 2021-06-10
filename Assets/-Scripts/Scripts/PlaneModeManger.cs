@@ -192,4 +192,11 @@ public class PlaneModeManger : MonoBehaviour
             MainCam.transform.localPosition = new Vector3(MainCam.transform.localPosition.x + 0.25f, MainCam.transform.localPosition.y, MainCam.transform.localPosition.z);
         }
     }
+
+    //Previous?
+    public void OnclickUndo()
+    {
+        //To -  do
+        //UI History -> push / pop
+    }
 }
